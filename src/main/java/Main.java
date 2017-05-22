@@ -4,7 +4,7 @@ import com.codecool.testfiles.FileWordAnalyzer;
 public class Main {
     public static void main(String[] args) {
         FilePartReader filePartReader = new FilePartReader();
-//        filePartReader.setup("src/main/java/test_data.txt", 1, 2);
+        filePartReader.setup("src/main/java/test_data.txt", 1, 2);
 
         FileWordAnalyzer fileWordAnalyzer = new FileWordAnalyzer(filePartReader);
         System.out.println("---------------------------------------------------------------------------------");

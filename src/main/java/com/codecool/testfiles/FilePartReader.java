@@ -1,8 +1,12 @@
 package com.codecool.testfiles;
 
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,22 +55,35 @@ public class FilePartReader {
         setToLine(toLine);
     }
 
+//    private String read() throws IOException {
+//        return new String(Files.readAllBytes(Paths.get(this.getFilePath())));
+//    }
+
     private String read() throws IOException {
-        return new String(Files.readAllBytes(Paths.get(this.getFilePath())));
+        String line;
+        try (BufferedReader br = new BufferedReader(new FileReader(this.getFilePath()))) {
+            StringBuilder sb = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append(System.lineSeparator());
+            }
+            return sb.toString();
+        }
     }
 
-    public String readLines() {
+    public String readLines() throws FileNotFoundException{
         try {
             String fileContent = this.read();
             List <String> outputList = new ArrayList<>();
-            List<String> contentInList = Arrays.asList(fileContent.split("\n"));
+            List<String> contentInList = Arrays.asList(fileContent.split(System.lineSeparator()));
             for (String line : contentInList) {
                 if ((contentInList.indexOf(line) >= this.getFromLine()-1)
                     && (contentInList.indexOf(line) <= this.getToLine()-1)) {
-                    outputList.add(line);
+                    outputList.add(line+"\n");
                 }
             }
-            return String.join("\n", outputList);
+            return String.join("", outputList);
+        } catch (FileNotFoundException ex) {
+            throw new FileNotFoundException("File not found");
         } catch (IOException e) {
             e.printStackTrace();
         }

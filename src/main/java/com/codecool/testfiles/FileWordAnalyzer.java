@@ -1,6 +1,7 @@
 package com.codecool.testfiles;
 
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -48,7 +49,12 @@ public class FileWordAnalyzer {
     }
 
     private ArrayList<String> getContentAsList() {
-        return new ArrayList<>(Arrays.asList(filePartReader.readLines().replaceAll("\\r\\n", " ").split(" ")));
+        try {
+            return new ArrayList<>(Arrays.asList(filePartReader.readLines().replaceAll("\\n", " ").split(" ")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    return null;
     }
 
 }
