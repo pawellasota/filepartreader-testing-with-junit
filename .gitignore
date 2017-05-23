@@ -24,4 +24,4 @@
 hs_err_pid*
 out/
 test-strings.iml
-tests/
+/src/main/java/Main.java

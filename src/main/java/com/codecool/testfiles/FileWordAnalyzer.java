@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-
 public class FileWordAnalyzer {
     private FilePartReader filePartReader;
 
@@ -18,13 +17,19 @@ public class FileWordAnalyzer {
         this.filePartReader = filePartReader;
     }
 
-    public ArrayList<String> wordsByABC() { //returns the words ordered by alphabetically as an ArrayList
+    public FilePartReader getFilePartReader() {
+        return filePartReader;
+    }
+
+    public ArrayList wordsByABC() {
         ArrayList<String> outputList = getContentAsList();
+        if (outputList == null) throw new NullPointerException("List of words equals null");
         Collections.sort(outputList);
         return outputList;
     }
 
-    public ArrayList wordsContainingSubString(String subString) { //returns the words which contains the subString
+    public ArrayList wordsContainingSubString(String subString) {
+        if (subString.equals("")) throw new IllegalArgumentException("Substring cannot be empty string");
         ArrayList<String> outputList = new ArrayList<>();
         for(String word : this.getContentAsList()) {
             if (word.contains(subString)) {
@@ -34,7 +39,7 @@ public class FileWordAnalyzer {
         return outputList;
     }
 
-    public ArrayList wordsArePalindrome() { //returns the words from the String which are palindrome
+    public ArrayList wordsArePalindrome() {
         ArrayList<String> outputList = new ArrayList<>();
         for(String word : getContentAsList()) {
             if (this.isPalindrome(word)) {
@@ -50,7 +55,7 @@ public class FileWordAnalyzer {
 
     private ArrayList<String> getContentAsList() {
         try {
-            return new ArrayList<>(Arrays.asList(filePartReader.readLines().replaceAll("\\n", " ").split(" ")));
+            return new ArrayList<>(Arrays.asList(this.getFilePartReader().readLines().replaceAll("\\n", " ").split(" ")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
